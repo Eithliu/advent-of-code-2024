@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 
-fs.readFile('./data.txt', "utf8", (e, data) => {
+fs.readFile('./day1/data.txt', "utf8", (e, data) => {
     if (e) {
         console.error(e);
         return;
