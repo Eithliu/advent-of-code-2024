@@ -5,114 +5,55 @@ fs.readFile('./day4/data1.txt', "utf8", (e, data) => {
     console.error(e);
     return;
   }
-  const arr = data.split('\n');
 
+  // pour à gauche et à droite
   let count = 0;
+  const arr = data.split('\n');
+  /*
+  const reg = /XMAS/g
+  let newArr = [];
+  for (const word of arr) {
+    newArr.push(word.match(reg))
+  }
+  const reverseReg = /SAMX/g
+  for (const word of arr) {
+    newArr.push(word.match(reverseReg))
+  }
+  count += newArr.filter((ar) => ar !== null).length
+  console.log(count);
+*/
+  // pour haut et bas
+  for (let j = 0; j < arr.length; j++) {
+    const currEl = arr[j];
+    const nextLine = arr[j+1];
+    const thirdLine = arr[j+2];
+    const fourthLine = arr[j+3];
 
-  for (let i = 1; i < arr.length-3; i++) {
-    const currLine = arr[i];
+    const line = currEl.split('');
+    for (let i = 0; i < line.length; i++) {
+      const letter = i;
+      const nextLetter = i+1;
+      const thirdLetter = i+2;
+      const fourthLetter = i+3;
 
-    for (let j = 1; j < currLine.length-3; j++) {
-
-      if (arr[i][j] === 'X'
-        && arr[i][j+1] === 'M'
-        && arr[i][j+2] === 'A'
-        && arr[i][j+3] === 'S'
-      ) {
+      if (line[letter] === 'X' && nextLine[letter] === 'M' && thirdLine[letter] === 'A' && fourthLine[letter] === 'S') { // |bas xmas
         count++;
-      } else if (arr[i][j] === 'S'
-        && arr[i][j+1] === 'A'
-        && arr[i][j+2] === 'M'
-        && arr[i][j+3] === 'X'
-      ) {
+      } else if (line[letter] === 'S' && nextLine[letter] === 'A' && thirdLine[letter] === 'M' && fourthLine[letter] === 'X') { // |bas samx
         count++;
-      } else if (arr[i][j] === 'S'
-        && arr[i][j-1] === 'A'
-        && arr[i][j-2] === 'M'
-        && arr[i][j-3] === 'X'
-      ) {
+      } else if (line[letter] === 'X' && nextLine[nextLetter] === 'M' && thirdLine[thirdLetter] === 'A' && fourthLine[fourthLetter] === 'S') { // \bas xmas
         count++;
-      } else if (arr[i][j] === 'X'
-        && arr[i][j-1] === 'M'
-        && arr[i][j-2] === 'A'
-        && arr[i][j-3] === 'S'
-      ) {
+      } else if (line[letter] === 'S' && nextLine[nextLetter] === 'A' && thirdLine[thirdLetter] === 'M' && fourthLine[fourthLetter] === 'X') { // \bas samx
         count++;
-      } else if (arr[i][j] === 'X'
-        && arr[i+1][j] === 'M'
-        && arr[i+2][j] === 'A'
-        && arr[i+3][j] === 'S'
-      ) {
+      } else if (line[fourthLetter] === 'X' && nextLine[thirdLetter] === 'M' && thirdLine[nextLetter] === 'A' && fourthLine[letter] === 'S') { // /bas xmas
         count++;
-      } else if (arr[i][j] === 'S'
-        && arr[i+1][j] === 'A'
-        && arr[i+2][j] === 'M'
-        && arr[i+3][j] === 'X'
-      ) {
+      } else if (line[fourthLetter] === 'S' && nextLine[thirdLetter] === 'A' && thirdLine[nextLetter] === 'M' && fourthLine[letter] === 'X') { // /bas samx
         count++;
-      } else if (arr[i][j] === 'S'
-        && arr[i-1][j] === 'A'
-        && arr[i-2][j] === 'M'
-        && arr[i-3][j] === 'X'
-      ) {
+      } else if (line[letter] === 'X' && line[nextLetter] === 'M' && line[thirdLetter] === 'A' && line[fourthLetter] === 'S') { // -> xmas
         count++;
-      } else if (arr[i][j] === 'X'
-        && arr[i-1][j] === 'M'
-        && arr[i-2][j] === 'A'
-        && arr[i-3][j] === 'S'
-      ) {
-        count++;
-      } else if (arr[i][j] === 'X'
-        && arr[i+1][j+1] === 'M'
-        && arr[i+2][j+2] === 'A'
-        && arr[i+3][j+3] === 'S'
-      ) {
-        count++;
-      } else if (arr[i][j] === 'S'
-        && arr[i+1][j+1] === 'A'
-        && arr[i+2][j+2] === 'M'
-        && arr[i+3][j+3] === 'X'
-      ) {
-        count++;
-      } else if (arr[i][j] === 'X'
-        && arr[i-1][j-1] === 'M'
-        && arr[i-2][j-2] === 'A'
-        && arr[i-3][j-3] === 'S'
-      ) {
-        count++;
-      } else if (arr[i][j] === 'S'
-        && arr[i-1][j-1] === 'A'
-        && arr[i-2][j-2] === 'M'
-        && arr[i-3][j-3] === 'X'
-      ) {
-        count++;
-      } else if (arr[i][j] === 'X'
-        && arr[i-1][j+1] === 'M'
-        && arr[i-2][j+2] === 'A'
-        && arr[i-3][j+3] === 'S'
-      ) {
-        count++;
-      } else if (arr[i][j] === 'S'
-        && arr[i-1][j+1] === 'A'
-        && arr[i-2][j+2] === 'M'
-        && arr[i-3][j+3] === 'X'
-      ) {
-        count++;
-      }else if (arr[i][j] === 'X'
-        && arr[i+1][j-1] === 'M'
-        && arr[i+2][j-2] === 'A'
-        && arr[i+3][j-3] === 'S'
-      ) {
-        count++;
-      } else if (arr[i][j] === 'S'
-        && arr[i+1][j-1] === 'A'
-        && arr[i+2][j-2] === 'M'
-        && arr[i+3][j-3] === 'X'
-      ) {
+      } else if (line[letter] === 'S' && line[nextLetter] === 'A' && line[thirdLetter] === 'M' && line[fourthLetter] === 'X') { // -> samx
         count++;
       }
-
     }
   }
-  console.log(count);
-})
+  console.log(count)
+});
